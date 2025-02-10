@@ -1,0 +1,52 @@
+#!/bin/bash
+set -e
+
+if test "$#" -eq 0 -o "${1:0:1}" = '-'; then
+	set -- pg_upgrade "$@" -U ${POSTGRES_USER}
+fi
+
+OPT=$1
+
+case "${OPT}" in
+pg_upgrade)
+	if test "$(id -u)" = '0'; then
+		mkdir -p "${PGDATAOLD}" "${PGDATANEW}"
+		chmod 700 "${PGDATAOLD}" "${PGDATANEW}"
+		chown postgres .
+		chown -R postgres "${PGDATAOLD}" "${PGDATANEW}"
+		exec gosu postgres "${BASH_SOURCE}" "$@" -U ${POSTGRES_USER}
+	fi
+
+	# Address https://github.com/tianon/docker-postgres-upgrade/issues/100
+	if test ! -s "${PGDATANEW}/PG_VERSION"; then
+		PGDATA="${PGDATANEW}" eval "initdb -U ${POSTGRES_USER} --auth-host=${POSTGRES_HOST_AUTH_METHOD} --pwfile=<(printf '%s\n' '${POSTGRES_PASSWORD}') ${POSTGRES_INITDB_ARGS}"
+	fi
+	;;
+esac
+
+# Address https://github.com/tianon/docker-postgres-upgrade/issues/1
+echo "host all all all ${POSTGRES_HOST_AUTH_METHOD}" >> ${PGDATANEW}/pg_hba.conf
+
+echo "Perform upgrade"
+eval "$@" 
+echo "Upgrade done"
+
+if test -n "${EXTENSIONS}"; then
+	echo "Update extensions: ${EXTENSIONS}"
+	for EXT in ${EXTENSIONS}
+	do
+cat << EOF >>/tmp/update_extensions.sql
+\\connect template1
+ALTER EXTENSION "${EXT}" UPDATE;
+\\connect postgres 
+ALTER EXTENSION "${EXT}" UPDATE;
+\\connect ${POSTGRES_DB}
+ALTER EXTENSION "${EXT}" UPDATE;
+EOF
+	done
+	psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -a -f /tmp/update_extensions.sql
+	echo "Update extensions done"
+else
+	echo "No extensions to update"
+fi
+
