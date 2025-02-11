@@ -19,7 +19,7 @@ pg_upgrade)
 
 	# Address https://github.com/tianon/docker-postgres-upgrade/issues/100
 	if test ! -s "${PGDATANEW}/PG_VERSION"; then
-		PGDATA="${PGDATANEW}" eval "initdb -U ${POSTGRES_USER} --auth-host=${POSTGRES_HOST_AUTH_METHOD} --pwfile=<(printf '%s\n' '${POSTGRES_PASSWORD}') ${POSTGRES_INITDB_ARGS}"
+		PGDATA="${PGDATANEW}" eval "${PGBINNEW}/initdb -U ${POSTGRES_USER} --auth-host=${POSTGRES_HOST_AUTH_METHOD} --pwfile=<(printf '%s\n' '${POSTGRES_PASSWORD}') ${POSTGRES_INITDB_ARGS}"
 	fi
 	;;
 esac
