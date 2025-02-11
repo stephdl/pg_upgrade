@@ -21,7 +21,7 @@ pg_upgrade)
 	if test ! -s "${PGDATANEW}/PG_VERSION"; then
 	ls -la ${PGBINNEW}
 	ls -la /usr/libexec/postgresql17/*
-		PGDATA="${PGDATANEW}" eval "initdb -U ${POSTGRES_USER} --auth-host=${POSTGRES_HOST_AUTH_METHOD} --pwfile=<(printf '%s\n' '${POSTGRES_PASSWORD}') ${POSTGRES_INITDB_ARGS}"
+		PGDATA="${PGDATANEW}" eval "/usr/libexec/postgresql17/initdb -U ${POSTGRES_USER} --auth-host=${POSTGRES_HOST_AUTH_METHOD} --pwfile=<(printf '%s\n' '${POSTGRES_PASSWORD}') ${POSTGRES_INITDB_ARGS}"
 	fi
 	;;
 esac
