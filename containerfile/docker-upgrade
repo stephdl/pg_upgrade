@@ -22,6 +22,7 @@ pg_upgrade)
 	ls -la ${PGBINNEW}
 	ls -la /usr/libexec/postgresql17/*
 	export LD_LIBRARY_PATH=/usr/libexec/postgresql17:$LD_LIBRARY_PATH
+	ldd /usr/libexec/postgresql17/initdb
 		PGDATA="${PGDATANEW}" eval "/usr/libexec/postgresql17/initdb -U ${POSTGRES_USER} --auth-host=${POSTGRES_HOST_AUTH_METHOD} --pwfile=<(printf '%s\n' '${POSTGRES_PASSWORD}') ${POSTGRES_INITDB_ARGS}"
 	fi
 	;;
