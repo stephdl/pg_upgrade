@@ -3,9 +3,11 @@ FROM docker.io/library/postgres:17-bookworm
 RUN sed -i 's/$/ 13/' /etc/apt/sources.list.d/pgdg.list
 
 RUN set -eux; \
-	apk update; \
-	apk add musl-locales; \
-	apk add postgresql17; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+		postgresql-13='13.18-1.pgdg120+1' \
+	; \
+	rm -rf /var/lib/apt/lists/*
 
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_DB=postgres
