@@ -25,22 +25,7 @@ podman build \
 images+=("${repobase}/postgres_upgrade")
 
 
-# Commit the image
-buildah commit "${container}" "${repobase}/${reponame}"
-
-# Append the image URL to the images array
-images+=("${repobase}/${reponame}")
-
-#
-# NOTICE:
-#
-# It is possible to build and publish multiple images.
-#
-# 1. create another buildah container
-# 2. add things to it and commit it
-# 3. append the image url to the images array
-#
-
+# Push the images to the registry
 #
 # Setup CI when pushing to Github. 
 # Warning! docker::// protocol expects lowercase letters (,,)
