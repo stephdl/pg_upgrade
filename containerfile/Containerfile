@@ -11,8 +11,8 @@ ENV POSTGRES_PASSWORD=""
 ENV POSTGRES_HOST_AUTH_METHOD=md5
 ENV EXTENSIONS=""
 
-ENV PGBINOLD /usr/local/bin/
-ENV PGBINNEW /usr/libexec/postgresql17/
+ENV PGBINOLD /usr/local/bin
+ENV PGBINNEW /usr/libexec/postgresql17
 
 ENV PGDATAOLD /var/lib/postgresql/data
 ENV PGDATANEW /var/lib/postgresql/17/data
