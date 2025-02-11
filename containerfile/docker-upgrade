@@ -21,8 +21,8 @@ pg_upgrade)
 	if test ! -s "${PGDATANEW}/PG_VERSION"; then
 	ls -la ${PGBINNEW}
 	ls -la /usr/libexec/postgresql17/*
-	export LD_LIBRARY_PATH=/usr/libexec/postgresql17:$LD_LIBRARY_PATH
-	ldd /usr/libexec/postgresql17/initdb
+	# export LD_LIBRARY_PATH=/usr/libexec/postgresql17:$LD_LIBRARY_PATH
+	# ldd /usr/libexec/postgresql17/initdb
 	echo 'initdb_old'
 	ldd /usr/local/bin/initdb
 	find / -name *libpq.so*
