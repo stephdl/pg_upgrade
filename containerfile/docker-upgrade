@@ -2,6 +2,7 @@
 set -e
 
 if test "$#" -eq 0 -o "${1:0:1}" = '-'; then
+cd /tmp
 	set -- pg_upgrade "$@" -U ${POSTGRES_USER}
 fi
 
