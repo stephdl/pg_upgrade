@@ -1,13 +1,9 @@
-FROM docker.io/library/postgres:17-bookworm
-
-RUN sed -i 's/$/ 13/' /etc/apt/sources.list.d/pgdg.list
+FROM docker.io/library/13-alpine
 
 RUN set -eux; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
-		postgresql-13='13.18-1.pgdg120+1' \
-	; \
-	rm -rf /var/lib/apt/lists/*
+    apk update; \
+    apk add musl-locales; \
+    apk add postgresql17;
 
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_DB=postgres
@@ -15,11 +11,11 @@ ENV POSTGRES_PASSWORD=""
 ENV POSTGRES_HOST_AUTH_METHOD=md5
 ENV EXTENSIONS=""
 
-ENV PGBINOLD /usr/lib/postgresql/13/bin/
-ENV PGBINNEW /usr/lib/postgresql/17/bin/
+ENV PGBINOLD /usr/local/bin/
+ENV PGBINNEW /usr/libexec/postgresql17/
 
 ENV PGDATAOLD /var/lib/postgresql/data
-ENV PGDATANEW /var/lib/postgresql/17/main/
+ENV PGDATANEW /var/lib/postgresql/17/data
 
 RUN set -eux; \
 	mkdir -p "${PGDATAOLD}" "${PGDATANEW}"; \
