@@ -16,7 +16,7 @@ ENV POSTGRES_HOST_AUTH_METHOD=scram-sha-256
 ENV EXTENSIONS=""
 
 ENV PGBINOLD /usr/lib/postgresql/13/bin/
-ENV PGBINNEW /usr/local/bin
+ENV PGBINNEW /usr/lib/postgresql/17/bin/
 
 ENV PGDATAOLD /var/lib/postgresql/data
 ENV PGDATANEW /var/lib/postgresql/17/main/
