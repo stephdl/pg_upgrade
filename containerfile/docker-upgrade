@@ -3,7 +3,7 @@ set -e
 
 if test "$#" -eq 0 -o "${1:0:1}" = '-'; then
 
-	set -- cd /tmp && pg_upgrade "$@" -U ${POSTGRES_USER}
+	set -- pg_upgrade "$@" -U ${POSTGRES_USER}
 fi
 
 OPT=$1
@@ -15,8 +15,6 @@ pg_upgrade)
 		chmod 700 "${PGDATAOLD}" "${PGDATANEW}"
 		chown postgres .
 		chown -R postgres "${PGDATAOLD}" "${PGDATANEW}"
-		chown -R postgres "${PGBINOLD}" "${PGBINNEW}"
-		cd /tmp
 		exec gosu postgres "${BASH_SOURCE}" "$@" -U ${POSTGRES_USER}
 	fi
 
@@ -29,8 +27,7 @@ pg_upgrade)
 	# echo 'initdb_old'
 	# ldd /usr/local/bin/initdb
 	# find / -name *libpq.so*
-	cd ${PGBINNEW}
-		PGDATA="${PGDATANEW}" eval "initdb -U ${POSTGRES_USER} --auth-host=${POSTGRES_HOST_AUTH_METHOD} --pwfile=<(printf '%s\n' '${POSTGRES_PASSWORD}') ${POSTGRES_INITDB_ARGS}"
+	    PGDATA="${PGDATANEW}" eval "initdb -U ${POSTGRES_USER} --auth-host=${POSTGRES_HOST_AUTH_METHOD} --pwfile=<(printf '%s\n' '${POSTGRES_PASSWORD}') ${POSTGRES_INITDB_ARGS}"
 	fi
 	;;
 esac
