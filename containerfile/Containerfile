@@ -3,7 +3,7 @@ FROM docker.io/postgres:13.18-alpine3.20
 RUN set -eux; \
     apk update; \
     apk add musl-locales; \
-    apk add postgresql17;
+    apk add postgresql16;
 
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_DB=postgres
@@ -12,10 +12,10 @@ ENV POSTGRES_HOST_AUTH_METHOD=md5
 ENV EXTENSIONS=""
 
 ENV PGBINOLD /usr/local/bin
-ENV PGBINNEW /usr/libexec/postgresql17
+ENV PGBINNEW /usr/libexec/postgresql16
 
 ENV PGDATAOLD /var/lib/postgresql/data
-ENV PGDATANEW /var/lib/postgresql/17/data
+ENV PGDATANEW /var/lib/postgresql/16/data
 
 RUN set -eux; \
 	mkdir -p "${PGDATAOLD}" "${PGDATANEW}"; \

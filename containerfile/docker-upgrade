@@ -19,14 +19,14 @@ pg_upgrade)
 
 	# Address https://github.com/tianon/docker-postgres-upgrade/issues/100
 	if test ! -s "${PGDATANEW}/PG_VERSION"; then
-	ls -la ${PGBINNEW}
-	ls -la /usr/libexec/postgresql17/*
-	# export LD_LIBRARY_PATH=/usr/libexec/postgresql17:$LD_LIBRARY_PATH
-	# ldd /usr/libexec/postgresql17/initdb
-	echo 'initdb_old'
-	ldd /usr/local/bin/initdb
-	find / -name *libpq.so*
-		PGDATA="${PGDATANEW}" eval "/usr/libexec/postgresql17/initdb -U ${POSTGRES_USER} --auth-host=${POSTGRES_HOST_AUTH_METHOD} --pwfile=<(printf '%s\n' '${POSTGRES_PASSWORD}') ${POSTGRES_INITDB_ARGS}"
+	# ls -la ${PGBINNEW}
+	# ls -la /usr/libexec/postgresql17/*
+	# # export LD_LIBRARY_PATH=/usr/libexec/postgresql17:$LD_LIBRARY_PATH
+	# # ldd /usr/libexec/postgresql17/initdb
+	# echo 'initdb_old'
+	# ldd /usr/local/bin/initdb
+	# find / -name *libpq.so*
+		PGDATA="${PGDATANEW}" eval "/usr/libexec/postgresql16/initdb -U ${POSTGRES_USER} --auth-host=${POSTGRES_HOST_AUTH_METHOD} --pwfile=<(printf '%s\n' '${POSTGRES_PASSWORD}') ${POSTGRES_INITDB_ARGS}"
 	fi
 	;;
 esac
