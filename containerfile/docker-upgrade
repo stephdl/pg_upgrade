@@ -27,7 +27,7 @@ pg_upgrade)
 	# ldd /usr/local/bin/initdb
 	# find / -name *libpq.so*
 	cd ${PGBINNEW}
-		PGDATA="${PGDATANEW}" eval "initdb -U ${POSTGRES_USER} --auth-host=${POSTGRES_HOST_AUTH_METHOD} --pwfile=<(printf '%s\n' '${POSTGRES_PASSWORD}') ${POSTGRES_INITDB_ARGS}"
+		PGDATA="${PGDATANEW}" eval "initdb -U ${POSTGRES_USER} --xlogdir=/tmp/pg_upgrade_internal.log --auth-host=${POSTGRES_HOST_AUTH_METHOD} --pwfile=<(printf '%s\n' '${POSTGRES_PASSWORD}') ${POSTGRES_INITDB_ARGS}"
 	fi
 	;;
 esac
